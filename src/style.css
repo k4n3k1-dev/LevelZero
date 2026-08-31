@@ -22,6 +22,108 @@ canvas#app {
     display: none !important;
 }
 
+/* Class select */
+#class-select-screen {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    color: #eee;
+    gap: 20px;
+}
+
+#class-options {
+    display: flex;
+    gap: 16px;
+}
+
+.class-option {
+    padding: 16px 24px;
+    font-size: 16px;
+    background: #1a1a24;
+    color: #fff;
+    border: 2px solid #444;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.class-option:hover {
+    border-color: #8a7cff;
+    background: #24243a;
+}
+
+.class-option.selected {
+    border-color: #8a7cff;
+    background: #2e2a52;
+}
+
+#tint-options {
+    display: flex;
+    gap: 12px;
+}
+
+.tint-option {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid #444;
+    cursor: pointer;
+    padding: 0;
+}
+
+.tint-option.selected {
+    border-color: #fff;
+}
+
+#start-adventure-button {
+    padding: 12px 28px;
+    font-size: 16px;
+    background: #8a7cff;
+    color: #0a0a0f;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#continue-save-button {
+    padding: 10px 20px;
+    background: transparent;
+    color: #8a7cff;
+    border: 1px solid #8a7cff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Minimap */
+#minimap {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 6px;
+}
+
+/* Checkpoint toast */
+#checkpoint-toast {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 4px;
+    z-index: 20;
+    transition: opacity 0.4s ease;
+}
+
 /* Loading screen */
 #loading-screen {
     position: fixed;
