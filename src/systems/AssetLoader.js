@@ -43,13 +43,19 @@ export class AssetLoader {
         return gltf.animations;
     }
 
-    // Applies a texture to every mesh in a loaded model's scene graph.
-    // KayKit characters use a single shared atlas texture per character,
-    // so this is a blanket apply, not per-mesh lookup.
-    static applyTexture(root, texture) {
+    // Applies a texture (and optional colour tint) to every mesh in a
+    // loaded model's scene graph. KayKit characters use a single shared
+    // atlas texture per character, so this is a blanket apply, not
+    // per-mesh lookup. tintColor multiplies the texture (three.js does
+    // this automatically via material.color), giving each player a
+    // visually distinct avatar from the same base model.
+    static applyTexture(root, texture, tintColor = '#ffffff') {
         root.traverse((node) => {
             if (node.isMesh) {
-                node.material = new THREE.MeshStandardMaterial({ map: texture });
+                node.material = new THREE.MeshStandardMaterial({
+                    map: texture,
+                    color: new THREE.Color(tintColor)
+                });
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
