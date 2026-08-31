@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGV Project</title>
+
+    <!--
+        Everything below is loaded with a RELATIVE path (./ not /).
+        Keep it that way - see vite.config.js for why.
+    -->
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+
+    <!-- Loading screen: shown until assets finish loading. Counts toward
+         "Polish" in the rubric and stops a slow first load from looking
+         like a crash. -->
+    <div id="loading-screen">
+        <div id="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+        <p id="loading-text">Loading...</p>
+    </div>
+
+    <!-- In-game HUD: replace/extend this with your level/HP/XP display -->
+    <div id="hud" class="hidden">
+        <div id="hud-level">Lv. 1</div>
+        <div id="hud-hp-bar-container">
+            <div id="hud-hp-bar"></div>
+        </div>
+    </div>
+
+    <!-- Required by the brief: credits screen listing everything you
+         did not make yourself (libraries, models, textures, sounds,
+         tutorials/code you adapted) with sources and licences. -->
+    <div id="credits-screen" class="hidden">
+        <div id="credits-content">
+            <h2>Credits</h2>
+            <ul id="credits-list">
+                <li>Three.js - https://threejs.org/ (MIT License)</li>
+                <!-- Add every external model/texture/sound/library/tutorial below -->
+            </ul>
+            <button id="credits-close">Close</button>
+        </div>
+    </div>
+
+    <button id="credits-button" class="hidden">Credits</button>
+
+    <canvas id="app"></canvas>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
