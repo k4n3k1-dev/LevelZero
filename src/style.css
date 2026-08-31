@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: system-ui, sans-serif;
+}
+
+canvas#app {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Loading screen */
+#loading-screen {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    color: #eee;
+}
+
+#loading-bar-container {
+    width: 300px;
+    height: 8px;
+    background: #222;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+#loading-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #6a5cff, #ff5cf1);
+    transition: width 0.2s ease;
+}
+
+/* HUD */
+#hud {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    font-weight: bold;
+    user-select: none;
+}
+
+#hud-hp-bar-container {
+    width: 200px;
+    height: 14px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+#hud-hp-bar {
+    width: 100%;
+    height: 100%;
+    background: #e33;
+    transition: width 0.2s ease;
+}
+
+/* Credits */
+#credits-button {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 10;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#credits-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#credits-content {
+    background: #16161d;
+    color: #eee;
+    padding: 24px 32px;
+    border-radius: 8px;
+    max-width: 500px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+#credits-content ul {
+    margin: 16px 0;
+    padding-left: 20px;
+}
+
+#credits-content li {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+#credits-close {
+    padding: 8px 16px;
+    cursor: pointer;
+}
