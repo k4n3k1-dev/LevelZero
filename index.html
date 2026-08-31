@@ -13,15 +13,47 @@
 </head>
 <body>
 
+    <!-- Class-select / "role" screen. Shown first, before any assets load.
+         This is the local stand-in for "register and pick a role" - see
+         README for why a real account system isn't part of this build. -->
+    <div id="class-select-screen">
+        <h1>Choose Your Class</h1>
+        <div id="class-options">
+            <button class="class-option" data-class="knight">Knight</button>
+            <button class="class-option" data-class="mage">Mage</button>
+            <button class="class-option" data-class="rogue">Rogue</button>
+            <button class="class-option" data-class="ranger">Ranger</button>
+        </div>
+
+        <h2>Choose Your Colour</h2>
+        <div id="tint-options">
+            <button class="tint-option" data-tint="#ffffff" style="background:#ffffff"></button>
+            <button class="tint-option" data-tint="#ff5c5c" style="background:#ff5c5c"></button>
+            <button class="tint-option" data-tint="#5c8bff" style="background:#5c8bff"></button>
+            <button class="tint-option" data-tint="#5cffa8" style="background:#5cffa8"></button>
+            <button class="tint-option" data-tint="#c85cff" style="background:#c85cff"></button>
+            <button class="tint-option" data-tint="#ffd45c" style="background:#ffd45c"></button>
+        </div>
+
+        <button id="start-adventure-button" class="hidden">Start Adventure</button>
+        <button id="continue-save-button" class="hidden">Continue Saved Game</button>
+    </div>
+
     <!-- Loading screen: shown until assets finish loading. Counts toward
          "Polish" in the rubric and stops a slow first load from looking
          like a crash. -->
-    <div id="loading-screen">
+    <div id="loading-screen" class="hidden">
         <div id="loading-bar-container">
             <div id="loading-bar"></div>
         </div>
         <p id="loading-text">Loading...</p>
     </div>
+
+    <!-- Minimap: simple top-down overlay, not a real second camera/scene. -->
+    <canvas id="minimap" width="160" height="160" class="hidden"></canvas>
+
+    <!-- Checkpoint toast, shown briefly when a save happens -->
+    <div id="checkpoint-toast" class="hidden">Progress saved</div>
 
     <!-- In-game HUD: replace/extend this with your level/HP/XP display -->
     <div id="hud" class="hidden">
