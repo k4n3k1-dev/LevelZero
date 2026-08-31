@@ -8,9 +8,24 @@ const TEXTURE_PATH = './models/player/knight_texture.png';
 
 // Knight uses Rig_Medium - only load animation files for that rig.
 // (Barbarian is the one built for Rig_Large - not relevant here.)
+//
+// General.glb is included specifically because MovementBasic.glb turned
+// out to have NO plain standing-idle clip (only Jump_Idle, which looks
+// like a mid-air pose when used as a standing idle) - confirmed by
+// logging clip names. General.glb is where KayKit puts a proper idle.
 const ANIMATION_PATHS = {
+    general: './models/animations/Rig_Medium/Rig_Medium_General.glb',
     movementBasic: './models/animations/Rig_Medium/Rig_Medium_MovementBasic.glb',
     combatMelee: './models/animations/Rig_Medium/Rig_Medium_CombatMelee.glb'
+};
+
+// Exact clip names confirmed by console.log against the real files -
+// see _setupAnimations(). Update these if you swap animation files.
+const CLIP_NAMES = {
+    run: 'Running_A',
+    attack: 'Melee_1H_Attack_Slice_Horizontal'
+    // idle intentionally not hardcoded here - see _setupAnimations,
+    // it's picked from whatever General.glb turns out to contain.
 };
 
 function createPlaceholderMesh() {
@@ -68,9 +83,10 @@ export class Player {
     async loadModel(loadingManager) {
         const loader = new AssetLoader(loadingManager);
 
-        const [gltf, texture, movementClips, combatClips] = await Promise.all([
+        const [gltf, texture, generalClips, movementClips, combatClips] = await Promise.all([
             loader.loadGLTF(MODEL_PATH),
             loader.loadTexture(TEXTURE_PATH),
+            loader.loadAnimationClips(ANIMATION_PATHS.general),
             loader.loadAnimationClips(ANIMATION_PATHS.movementBasic),
             loader.loadAnimationClips(ANIMATION_PATHS.combatMelee)
         ]);
@@ -87,25 +103,28 @@ export class Player {
         this.mesh.rotation.y = oldRotationY;
         this.scene.add(this.mesh);
 
-        this._setupAnimations([...movementClips, ...combatClips]);
+        this._setupAnimations([...generalClips, ...movementClips, ...combatClips]);
     }
 
     _setupAnimations(clips) {
         this.mixer = new THREE.AnimationMixer(this.mesh);
 
-        // IMPORTANT: these clip names are a best guess based on KayKit's
-        // typical naming (Idle/Walk/Run/Attack). Open your browser
-        // console after loading - this logs every clip name actually
-        // found in the files, so you can correct the lookups below if
-        // they don't match.
         console.log('Available animation clips:', clips.map((c) => c.name));
 
-        const findClip = (searchTerm) =>
-            clips.find((c) => c.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        const findExact = (name) =>
+            clips.find((c) => c.name.toLowerCase() === name.toLowerCase());
 
-        const idleClip = findClip('idle');
-        const runClip = findClip('run') || findClip('walk');
-        const attackClip = findClip('attack') || findClip('slash') || findClip('swing');
+        // Idle deliberately isn't a single hardcoded name - General.glb's
+        // exact idle clip name wasn't confirmed yet, so try the most
+        // likely candidates in order, and fall back to a non-Jump melee
+        // idle rather than ever picking Jump_Idle by accident.
+        const idleClip =
+            findExact('Idle') ||
+            findExact('Idle_A') ||
+            findExact('Melee_Unarmed_Idle');
+
+        const runClip = findExact(CLIP_NAMES.run);
+        const attackClip = findExact(CLIP_NAMES.attack);
 
         if (idleClip) this.actions.idle = this.mixer.clipAction(idleClip);
         if (runClip) this.actions.run = this.mixer.clipAction(runClip);
@@ -117,10 +136,12 @@ export class Player {
 
         if (!idleClip || !runClip || !attackClip) {
             console.warn(
-                'One or more animation clips were not found by name matching. ' +
-                'Check the console.log above for the real clip names and update ' +
-                'the findClip() search terms in Player.js to match.'
+                'Missing animation(s):',
+                { idleClip: !!idleClip, runClip: !!runClip, attackClip: !!attackClip },
+                '- check the clip name list logged above and fix CLIP_NAMES / the idle fallbacks at the top of Player.js.'
             );
+        } else {
+            console.log('Idle clip resolved to:', idleClip.name);
         }
 
         this._playAction('idle');
